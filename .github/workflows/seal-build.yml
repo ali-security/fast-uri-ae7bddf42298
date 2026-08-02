@@ -6,10 +6,7 @@ name: Seal Build
 # package must support.
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -21,9 +18,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: ['ubuntu-latest', 'windows-latest', 'macos-latest']
+        os: [ubuntu-latest, windows-latest, macos-latest]
         node-version: ['23', '24']
     steps:
+      - name: Configure npm time machine registry
+        run: npm config set registry https://:2025-08-25T13%3A16%3A04.404000Z@time-machines-npm.sealsecurity.io/
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
@@ -43,6 +42,8 @@ jobs:
     name: Test compatibility with Node.js 10
     runs-on: ubuntu-latest
     steps:
+      - name: Configure npm time machine registry
+        run: npm config set registry https://:2025-08-25T13%3A16%3A04.404000Z@time-machines-npm.sealsecurity.io/
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
@@ -76,6 +77,8 @@ jobs:
       - test
       - test-regression-check-node10
     steps:
+      - name: Configure npm time machine registry
+        run: npm config set registry https://:2025-08-25T13%3A16%3A04.404000Z@time-machines-npm.sealsecurity.io/
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
